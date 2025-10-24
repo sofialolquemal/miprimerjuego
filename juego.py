@@ -14,3 +14,5 @@ while runing:
             runing = False #cuando eso pasa se cierra
     pygame.display.flip() #se guardan los cambios hechos
 pygame.quit() #asi se cierra bien la ventana
+
+#intentodepruebaparagithub

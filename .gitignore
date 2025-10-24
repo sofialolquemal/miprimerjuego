@@ -1,0 +1,14 @@
+#Que debe ignorar git?
+venv/ 
+#Es la carpeta del entorno virtual de Python (Virtual Environment).
+#Esa carpeta puede pesar mucho (decenas o cientos de MB) 
+#y no es necesaria subirla, porque cualquiera puede recrearla usando: pip install -r requirements.txt
+__pycache__/ 
+#Contiene archivos con código “compilado” (.pyc) para que el programa cargue más rápido.
+#No es nesesario subirlas
+*.pyc 
+# Archivos “bytecode” de Python (por ejemplo main.cpython-311.pyc). No es util
+*.wav 
+*.mp3 
+*.png 
+highscore.txt

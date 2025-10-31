@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Mini Fruit Ninja")
 
 # Colores
-WHITE = (255, 255, 255)
+WHITE = (255, 134, 25)
 RED = (255, 0, 0)
 
 # Fuente
@@ -25,7 +25,7 @@ clock = pygame.time.Clock()
 class Fruit:
     def __init__(self):
         self.x = random.randint(100, WIDTH - 100)
-        self.y = HEIGHT + 50
+        self.y = HEIGHT + 2
         self.radius = 30
         self.color = random.choice([(255, 100, 100), (100, 255, 100), (100, 100, 255)])
         self.vel_y = random.uniform(-15, -10)
@@ -36,7 +36,7 @@ class Fruit:
         self.x += self.vel_x
         self.y += self.vel_y
         self.vel_y += 0.5  # gravedad
-        if self.y > HEIGHT + 50:
+        if self.y > HEIGHT + 2:
             self.active = False
 
     def draw(self, surface):

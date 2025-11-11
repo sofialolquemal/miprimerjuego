@@ -9,7 +9,7 @@ screen= pygame.display.set_mode((ANCHO, ALTO)) #la libreria hace que se reconozc
 
 pygame.display.set_caption("Click fruit")
 pera = pygame.image.load("assets/pera.png")
-
+pera = pygame.transform.scale(pera, (145, 145))
 running = True
 while running:
     for event in pygame.event.get():

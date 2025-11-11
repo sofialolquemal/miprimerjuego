@@ -8,15 +8,17 @@ screen= pygame.display.set_mode((ANCHO, ALTO)) #la libreria hace que se reconozc
 #como funciones para abrir una ventana
 
 pygame.display.set_caption("Click fruit")
+pera = pygame.image.load("assets/pera.png")
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #hacer clic en cerrar ventana
             running = False #cuando eso pasa se cierra
-    pygame.display.flip() #se guardan los cambios hechos
-    screen.fill((184, 98, 234))
     
+    screen.fill((184, 98, 234)) #El fondo se hace con formato RGB
+    screen.blit(pera, (50, 100))    
+    pygame.display.flip()
 pygame.quit() #asi se cierra bien la ventana 
 #una variable esta en verdadero (ventana abierta) todo el rato 
 # hasta que al apretar la equis, se vuelve falsa y se cierra

@@ -10,5 +10,4 @@ __pycache__/
 # Archivos “bytecode” de Python (por ejemplo main.cpython-311.pyc). No es util
 *.wav 
 *.mp3 
-*.png 
 highscore.txt

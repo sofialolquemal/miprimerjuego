@@ -2,7 +2,7 @@ import pygame  # importamos la librería
 import random  # para posiciones y direcciones aleatorias
 
 pygame.init()  # inicializar Pygame
-
+clock = pygame.time.Clock()
 # --- Configuración de la pantalla ---
 ANCHO = 800
 ALTO = 600
@@ -17,17 +17,19 @@ class Fruta:
         self.image = pygame.transform.scale(self.image, (145, 145))
         # posición aleatoria dentro de la pantalla
         self.x = random.randint(100, ANCHO - 200) 
-        self.y = ALTO - 80                          
+        self.y = ALTO - 400                         
         self.vel_x = random.uniform(-3, 3)          
-        self.vel_y = random.uniform(-10, -6)       
-        self.gravedad = 0.4
+        self.vel_y = random.uniform(-8, 5)       
+        self.gravedad = 0.25
 
     def mover(self):
         self.x += self.vel_x
         self.y += self.vel_y
-        self.vel_y += self.gravedad  # gravedad
-
-    # si sale de la pantalla (cayó), eliminarla
+        self.vel_y += 0.5  # gravedad
+        if self.vel_y > 10:
+            self.vel_y = 10
+        if self.y > ALTO + 2:
+            self.active = False
         if self.y > ALTO + 100:
             return False  # fruta muerta (ya cayó)
         return True
@@ -46,6 +48,7 @@ frutas = [
 
 running = True
 while running:
+    clock.tick(60)
     screen.fill((184, 98, 234))
     for fruta in frutas[:]:
         viva = fruta.mover()
@@ -64,7 +67,6 @@ while running:
             for fruta in frutas[:]:  # recorremos copia de la lista
                 if fruta.x <= pos[0] <= fruta.x + 145 and fruta.y <= pos[1] <= fruta.y + 145:
                     frutas.remove(fruta)  # eliminar fruta clickeada
-                    frutas.append(Fruta("assets/pera.png"))  # crear nueva fruta
 
     if random.random() < 0.02:  # probabilidad de aparición
         frutas.append(Fruta("assets/pera.png"))

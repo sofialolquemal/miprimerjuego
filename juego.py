@@ -14,16 +14,31 @@ y = 250
 vel_x = 2
 vel_y = 1
 
+import random
+
+class Fruta:
+    def __init__(self, imagen):
+        self.image = pygame.image.load(imagen)
+        self.image = pygame.transform.scale(self.image, (145, 145))
+        self.x = random.randint(0, ANCHO - 145)
+        self.y = random.randint(0, ALTO - 145)
+        self.vel_x = random.choice([-3, 3])
+        self.vel_y = random.choice([-2, 2])
+
 running = True
+frutas = [Fruta("assets/pera.png", "assets/manzana.png", "assets/fresa.png", "assets/naranja.png", "assets/racimo.uva.png")]
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #hacer clic en cerrar ventana
             running = False #cuando eso pasa se cierra
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        pos = pygame.mouse.get_pos()  # posición del clic
+        print(pos)
     x += vel_x
     y += vel_y
-    if x + 50 >= ANCHO or x <= 0:
+    if x + 150 >= ANCHO or x <= 0:
         vel_x *= -1
-    if y + 50 >= ALTO or y <= 0:
+    if y + 150 >= ALTO or y <= 0:
         vel_y *= -1
 
     screen.fill((184, 98, 234)) #El fondo se hace con formato RGB

@@ -16,22 +16,21 @@ class Fruta:
         self.image = pygame.image.load(imagen)
         self.image = pygame.transform.scale(self.image, (145, 145))
         # posición aleatoria dentro de la pantalla
-        self.x = random.randint(0, ANCHO - 145)
-        self.y = random.randint(0, ALTO - 145)
-        # velocidad aleatoria (positivo o negativo para dirección)
-        self.vel_x = random.choice([-3, 3])
-        self.vel_y = random.choice([-2, 2])
+        self.x = random.randint(100, ANCHO - 200) 
+        self.y = ALTO - 80                          
+        self.vel_x = random.uniform(-3, 3)          
+        self.vel_y = random.uniform(-10, -6)       
+        self.gravedad = 0.4
 
     def mover(self):
-        # mover fruta
         self.x += self.vel_x
         self.y += self.vel_y
+        self.vel_y += self.gravedad  # gravedad
 
-        # rebotar en los bordes
-        if self.x + 145 >= ANCHO or self.x <= 0:
-            self.vel_x *= -1
-        if self.y + 145 >= ALTO or self.y <= 0:
-            self.vel_y *= -1
+    # si sale de la pantalla (cayó), eliminarla
+        if self.y > ALTO + 100:
+            return False  # fruta muerta (ya cayó)
+        return True
 
     def dibujar(self, pantalla):
         pantalla.blit(self.image, (self.x, self.y))
@@ -39,15 +38,21 @@ class Fruta:
 # --- Lista con frutas ---
 frutas = [
     Fruta("assets/pera.png"),
-    Fruta("assets/pera.png")
+    Fruta("assets/naranja.png"),
+    Fruta("assets/manzana.png"),
+    Fruta("assets/fresa.png"),
+    Fruta("assets/racimo.uva.png")
 ]  # puedes duplicar o cambiar por más frutas
 
-# --- Bucle principal ---
 running = True
 while running:
-    # fondo
     screen.fill((184, 98, 234))
-
+    for fruta in frutas[:]:
+        viva = fruta.mover()
+        if not viva:
+            frutas.remove(fruta)  # si cayó, eliminarla
+        else:
+            fruta.dibujar(screen)
     # manejar eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -61,11 +66,8 @@ while running:
                     frutas.remove(fruta)  # eliminar fruta clickeada
                     frutas.append(Fruta("assets/pera.png"))  # crear nueva fruta
 
-    # mover y dibujar frutas
-    for fruta in frutas:
-        fruta.mover()
-        fruta.dibujar(screen)
-
+    if random.random() < 0.02:  # probabilidad de aparición
+        frutas.append(Fruta("assets/pera.png"))
     # actualizar pantalla
     pygame.display.flip()
 

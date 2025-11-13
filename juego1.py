@@ -53,6 +53,7 @@ def crear_fruta_aleatoria():
 frutas.append(crear_fruta_aleatoria())
 puntaje = 0
 running = True
+ultimo_movimiento = pygame.time.get_ticks()
 while running:
     clock.tick(60)
     screen.fill((184, 98, 234))
@@ -66,6 +67,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.MOUSEMOTION:
+            ultimo_movimiento = pygame.time.get_ticks()
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             frutas_clickeadas = []  
@@ -95,8 +98,14 @@ while running:
 
     if random.random() < 0.02:
         frutas.append(crear_fruta_aleatoria())
+    tiempo_actual = pygame.time.get_ticks()
+    if tiempo_actual - ultimo_movimiento > 6000:  # 6 segundos sin mover el mouse
+        running = False
+    
     fuente = pygame.font.Font(None, 36)
     texto = fuente.render(f"Puntaje: {puntaje}", True, (255, 255, 255))
     screen.blit(texto, (10, 10))
     pygame.display.flip()
 pygame.quit()
+print("Juego terminado por inactividad")
+print("Puntaje=", puntaje)

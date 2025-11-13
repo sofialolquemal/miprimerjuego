@@ -8,7 +8,7 @@ ANCHO, ALTO = 800, 600
 screen = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Click Fruit")
 
-# --- Clase Fruta ---
+
 class Fruta:
     def __init__(self, imagen, tipo):
         self.tipo = tipo
@@ -32,7 +32,7 @@ class Fruta:
     def dibujar(self, pantalla):
         pantalla.blit(self.image, (self.x, self.y))
 
-# --- Generar frutas ---
+
 frutas = []
 
 def crear_fruta_aleatoria():
@@ -48,15 +48,15 @@ def crear_fruta_aleatoria():
     elif tipo == "uva":
         return Fruta("assets/uva.png", "uva")
 
-frutas.append(crear_fruta_aleatoria())
 
-# --- Loop principal ---
+
+frutas.append(crear_fruta_aleatoria())
+puntaje = 0
 running = True
 while running:
     clock.tick(60)
     screen.fill((184, 98, 234))
 
-    # Mover y dibujar frutas
     for fruta in frutas[:]:
         if fruta.mover():
             fruta.dibujar(screen)
@@ -66,13 +66,13 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
-            for fruta in frutas[:]:
+            frutas_clickeadas = []  
+
+            for fruta in frutas:
                 rect = pygame.Rect(fruta.x, fruta.y, fruta.image.get_width(), fruta.image.get_height())
                 if rect.collidepoint(pos):
-                    # Si es racimo de uva → explota en mini uvas
                     if fruta.tipo == "uva":
                         for i in range(5):
                             mini = Fruta("assets/uva.png", "mini_uva")
@@ -81,12 +81,22 @@ while running:
                             mini.vel_x = random.uniform(-4, 4)
                             mini.vel_y = random.uniform(-8, -4)
                             frutas.append(mini)
+                        puntaje += 2  # racimo de uva
+
+                    elif fruta.tipo == "mini_uva":
+                        puntaje += 5  # mini uva
+                    else:
+                        puntaje += 1  # otras frutas
+                    frutas_clickeadas.append(fruta)
+
+            for fruta in frutas_clickeadas:
+                if fruta in frutas:
                     frutas.remove(fruta)
 
-    # Aparición aleatoria de nuevas frutas
     if random.random() < 0.02:
         frutas.append(crear_fruta_aleatoria())
-
+    fuente = pygame.font.Font(None, 36)
+    texto = fuente.render(f"Puntaje: {puntaje}", True, (255, 255, 255))
+    screen.blit(texto, (10, 10))
     pygame.display.flip()
-
 pygame.quit()
